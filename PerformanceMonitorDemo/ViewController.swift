@@ -60,6 +60,7 @@ class ViewController: UIViewController {
         fpsView.font = UIFont.init(name: "Menlo", size: 12.0)
         
         showUsageInfo()
+        
     }
     
     func showUsageInfo() {

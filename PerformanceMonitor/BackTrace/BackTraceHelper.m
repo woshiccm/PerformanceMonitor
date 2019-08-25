@@ -16,9 +16,6 @@
 #import <mach-o/nlist.h>
 #import <mach-o/dyld.h>
 
-/*!
- *  @brief  适配不同CPU的宏定义
- */
 #if defined(__arm64__)
 #define DETAG_INSTRUCTION_ADDRESS(A) ((A) & ~(3UL))
 #define LSL_THREAD_STATE_COUNT ARM_THREAD_STATE64_COUNT
@@ -71,126 +68,42 @@
 #define FAILED_UINT_PTR_ADDRESS 0
 #define CALL_INSTRUCTION_FROM_RETURN_ADDRESS(A) (DETAG_INSTRUCTION_ADDRESS((A)) - 1)
 
-typedef struct LSLStackFrameEntry{
-    const struct LSLStackFrameEntry * const previous;
+typedef struct StackFrameEntry {
+    const struct StackFrameEntry * const previous;
     const uintptr_t return_address;
-} LSLStackFrameEntry;
-
-static mach_port_t main_thread_id;
-
-static inline dispatch_queue_t lsl_log_IO_queue() {
-    static dispatch_queue_t lsl_log_IO_queue;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        lsl_log_IO_queue = dispatch_queue_create("com.sindrilin.lsl_log_IO_queue", NULL);
-    });
-    return lsl_log_IO_queue;
-}
+} StackFrameEntry;
 
 @implementation BackTraceHelper
 
-+ (void)load {
-    main_thread_id = mach_thread_self();
-}
 
 #pragma mark - Public
-+ (NSString *)lsl_backtraceOfAllThread {
-    thread_act_array_t threads;
-    mach_msg_type_number_t thread_count = 0;
-    
-    kern_return_t kr = task_threads(mach_task_self(), &threads, &thread_count);
-    if (kr != KERN_SUCCESS) {
-        return @"Failed to get information of all threads";
-    }
-    NSMutableString * result = @"".mutableCopy;
-    for (int idx = 0; idx < thread_count; idx++) {
-        [result appendString: _lsl_backtraceOfThread(threads[idx])];
-    }
-    return result.copy;
+
++ (NSString *)backtraceOfMachthread:(thread_t)thread {
+    return rc_backtraceOfThread(thread);
 }
 
-+ (NSString *)lsl_backtraceOfMainThread {
-    return [self lsl_backtraceOfNSThread: [NSThread mainThread]];
-}
-
-+ (NSString *)lsl_backtraceOfCurrentThread {
-    return [self lsl_backtraceOfNSThread: [NSThread currentThread]];
-}
-
-+ (NSString *)lsl_backtraceOfNSThread:(NSThread *)thread {
-    return _lsl_backtraceOfThread(lsl_machThreadFromNSThread(thread));
-}
-
-+ (void)lsl_logMain {
-    LOG_SEPERATE
-    NSLog(@"%@", [self lsl_backtraceOfMainThread]);
-    LOG_SEPERATE
-}
-
-+ (void)lsl_logCurrent {
-    LOG_SEPERATE
-    NSLog(@"%@", [self lsl_backtraceOfCurrentThread]);
-    LOG_SEPERATE
-}
-
-+ (void)lsl_logAllThread {
-    LOG_SEPERATE
-    NSLog(@"%@", [self lsl_backtraceOfAllThread]);
-    LOG_SEPERATE
-}
-
-
-#pragma mark - Generate
-thread_t lsl_machThreadFromNSThread(NSThread * nsthread) {
-    char name[256];
-    thread_act_array_t list;
-    mach_msg_type_number_t count;
-    task_threads(mach_task_self(), &list, &count);
-    
-    NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
-    NSString * originName = nsthread.name;
-    [nsthread setName: [NSString stringWithFormat: @"%f", timeStamp]];
-    
-    if ([nsthread isMainThread]) { return (thread_t)main_thread_id; }
-    
-    for (int idx = 0; idx < count; idx++) {
-        pthread_t pt = pthread_from_mach_thread_np(list[idx]);
-        if ([nsthread isMainThread] && list[idx] == main_thread_id) { return list[idx]; }
-        if (pt) {
-            name[0] = '\0';
-            pthread_getname_np(pt, name, sizeof(name));
-            if (!strcmp(name, [nsthread name].UTF8String)) {
-                [nsthread setName: originName];
-                return list[idx];
-            }
-        }
-    }
-    [nsthread setName: originName];
-    return mach_thread_self();
-}
-
-NSString * _lsl_backtraceOfThread(thread_t thread) {
+NSString * rc_backtraceOfThread(thread_t thread) {
     uintptr_t backtraceBuffer[MAX_FRAME_NUMBER];
     int idx = 0;
-    NSMutableString * result = [NSString stringWithFormat: @"Backtrace of Thread %u:\n======================================================================================\n", thread].mutableCopy;
+    NSMutableString * result = [NSString stringWithFormat: @"Backtrace of Thread %u:\n", thread].mutableCopy;
     
     _STRUCT_MCONTEXT machineContext;
-    if (!lsl_fillThreadStateIntoMachineContext(thread, &machineContext)) {
+    if (!fillThreadStateIntoMachineContext(thread, &machineContext)) {
         return [NSString stringWithFormat: @"Failed to get information abount thread: %u", thread];
     }
-    const uintptr_t instructionAddress = lsl_mach_instructionAddress(&machineContext);
+    const uintptr_t instructionAddress = mach_instructionAddress(&machineContext);
     backtraceBuffer[idx++] = instructionAddress;
     
-    uintptr_t linkRegister = lsl_mach_linkRegister(&machineContext);
+    uintptr_t linkRegister = mach_linkRegister(&machineContext);
     if (linkRegister) {
         backtraceBuffer[idx++] = linkRegister;
     }
     if (instructionAddress == FAILED_UINT_PTR_ADDRESS) { return @"Failed to get instruction address"; }
     
-    LSLStackFrameEntry frame = { 0 };
-    const uintptr_t framePtr = lsl_mach_framePointer(&machineContext);
+    StackFrameEntry frame = { 0 };
+    const uintptr_t framePtr = mach_framePointer(&machineContext);
     if (framePtr == FAILED_UINT_PTR_ADDRESS ||
-        lsl_mach_copyMem((void *)framePtr, &frame, sizeof(frame)) != KERN_SUCCESS) {
+        mach_copyMem((void *)framePtr, &frame, sizeof(frame)) != KERN_SUCCESS) {
         return @"failed to get frame pointer";
     }
     
@@ -198,31 +111,29 @@ NSString * _lsl_backtraceOfThread(thread_t thread) {
         backtraceBuffer[idx] = frame.return_address;
         if (backtraceBuffer[idx] == FAILED_UINT_PTR_ADDRESS ||
             frame.previous == NULL ||
-            lsl_mach_copyMem(frame.previous, &frame, sizeof(frame)) != KERN_SUCCESS) {
+            mach_copyMem(frame.previous, &frame, sizeof(frame)) != KERN_SUCCESS) {
             break;
         }
     }
     
     int backtraceLength = idx;
     Dl_info symbolicated[backtraceLength];
-    lsl_symbolicate(backtraceBuffer, symbolicated, backtraceLength, 0);
+    rc_symbolicate(backtraceBuffer, symbolicated, backtraceLength, 0);
     for (int idx = 0; idx < backtraceLength; idx++) {
-        [result appendFormat: @"%@", lsl_logBacktraceEntry(idx, backtraceBuffer[idx], &symbolicated[idx])];
+        [result appendFormat: @"%@", logBacktraceEntry(idx, backtraceBuffer[idx], &symbolicated[idx])];
     }
     [result appendString: @"\n"];
-    [result appendString: @"======================================================================================"];
     return result.copy;
 }
 
-
 #pragma mark - operate machine context
-bool lsl_fillThreadStateIntoMachineContext(thread_t thread, _STRUCT_MCONTEXT * machineContext) {
+bool fillThreadStateIntoMachineContext(thread_t thread, _STRUCT_MCONTEXT * machineContext) {
     mach_msg_type_number_t state_count = LSL_THREAD_STATE_COUNT;
     kern_return_t kr = thread_get_state(thread, LSL_THREAD_STATE, (thread_state_t)&machineContext->__ss, &state_count);
     return (kr == KERN_SUCCESS);
 }
 
-uintptr_t lsl_mach_linkRegister(_STRUCT_MCONTEXT * const machineContext){
+uintptr_t mach_linkRegister(_STRUCT_MCONTEXT * const machineContext){
 #if defined(__i386__) || defined(__x86_64__)
     return FAILED_UINT_PTR_ADDRESS;
 #else
@@ -230,46 +141,46 @@ uintptr_t lsl_mach_linkRegister(_STRUCT_MCONTEXT * const machineContext){
 #endif
 }
 
-uintptr_t lsl_mach_framePointer(_STRUCT_MCONTEXT * const machineContext) {
+uintptr_t mach_framePointer(_STRUCT_MCONTEXT * const machineContext) {
     return machineContext->__ss.LSL_FRAME_POINTER;
 }
 
-uintptr_t lsl_mach_instructionAddress(_STRUCT_MCONTEXT * const machineContext) {
+uintptr_t mach_instructionAddress(_STRUCT_MCONTEXT * const machineContext) {
     return machineContext->__ss.LSL_INSTRUCTION_ADDRESS;
 }
 
-kern_return_t lsl_mach_copyMem(const void * src, const void * dst, const size_t numBytes) {
+kern_return_t mach_copyMem(const void * src, const void * dst, const size_t numBytes) {
     vm_size_t bytesCopied = 0;
     return vm_read_overwrite(mach_task_self(), (vm_address_t)src, (vm_size_t)numBytes, (vm_address_t)dst, &bytesCopied);
 }
 
 
 #pragma mark - handle symbolicate
-void lsl_symbolicate(const uintptr_t * const backtraceBuffer, Dl_info * const symbolsBuffer, const int numEntries, const int skippedEntries) {
+void rc_symbolicate(const uintptr_t * const backtraceBuffer, Dl_info * const symbolsBuffer, const int numEntries, const int skippedEntries) {
     int idx = 0;
     if (!skippedEntries && idx < numEntries) {
-        lsl_dladdr(backtraceBuffer[idx], &symbolsBuffer[idx]);
+        rc_dladdr(backtraceBuffer[idx], &symbolsBuffer[idx]);
         idx++;
     }
     
     for (; idx < numEntries; idx++) {
-        lsl_dladdr(CALL_INSTRUCTION_FROM_RETURN_ADDRESS(backtraceBuffer[idx]), &symbolsBuffer[idx]);
+        rc_dladdr(CALL_INSTRUCTION_FROM_RETURN_ADDRESS(backtraceBuffer[idx]), &symbolsBuffer[idx]);
     }
 }
 
-bool lsl_dladdr(const uintptr_t address, Dl_info * const info) {
+bool rc_dladdr(const uintptr_t address, Dl_info * const info) {
     info->dli_fname = NULL;
     info->dli_fbase = NULL;
     info->dli_sname = NULL;
     info->dli_saddr = NULL;
     
-    const uint32_t idx = lsl_imageIndexContainingAddress(address);
+    const uint32_t idx = imageIndexContainingAddress(address);
     if (idx == UINT_MAX) { return false; }
     
     const struct mach_header * header = _dyld_get_image_header(idx);
     const uintptr_t imageVMAddressSlide = (uintptr_t)_dyld_get_image_vmaddr_slide(idx);
     const uintptr_t addressWithSlide = address - imageVMAddressSlide;
-    const uintptr_t segmentBase = lsl_segmentBaseOfImageIndex(idx) + imageVMAddressSlide;
+    const uintptr_t segmentBase = segmentBaseOfImageIndex(idx) + imageVMAddressSlide;
     if (segmentBase == FAILED_UINT_PTR_ADDRESS) { return false; }
     
     info->dli_fbase = (void *)header;
@@ -277,7 +188,7 @@ bool lsl_dladdr(const uintptr_t address, Dl_info * const info) {
     
     const LSL_NLIST * bestMatch = NULL;
     uintptr_t bestDistance = ULONG_MAX;
-    uintptr_t cmdPtr = lsl_firstCmdAfterHeader(header);
+    uintptr_t cmdPtr = firstCmdAfterHeader(header);
     if (cmdPtr == FAILED_UINT_PTR_ADDRESS) { return false; }
     
     for (uint32_t iCmd = 0; iCmd < header->ncmds; iCmd++) {
@@ -313,7 +224,7 @@ bool lsl_dladdr(const uintptr_t address, Dl_info * const info) {
     return true;
 }
 
-uintptr_t lsl_firstCmdAfterHeader(const struct mach_header * const header) {
+uintptr_t firstCmdAfterHeader(const struct mach_header * const header) {
     switch (header->magic) {
         case MH_MAGIC:
         case MH_CIGAM:
@@ -326,10 +237,10 @@ uintptr_t lsl_firstCmdAfterHeader(const struct mach_header * const header) {
     }
 }
 
-uintptr_t lsl_segmentBaseOfImageIndex(const uint32_t idx) {
+uintptr_t segmentBaseOfImageIndex(const uint32_t idx) {
     const struct mach_header * header = _dyld_get_image_header(idx);
     
-    uintptr_t cmdPtr = lsl_firstCmdAfterHeader(header);
+    uintptr_t cmdPtr = firstCmdAfterHeader(header);
     if (cmdPtr == FAILED_UINT_PTR_ADDRESS) { return FAILED_UINT_PTR_ADDRESS; }
     for (uint32_t idx = 0; idx < header->ncmds; idx++) {
         const struct load_command * loadCmd = (struct load_command *)cmdPtr;
@@ -349,7 +260,7 @@ uintptr_t lsl_segmentBaseOfImageIndex(const uint32_t idx) {
     return FAILED_UINT_PTR_ADDRESS;
 }
 
-uint32_t lsl_imageIndexContainingAddress(const uintptr_t address) {
+uint32_t imageIndexContainingAddress(const uintptr_t address) {
     const uint32_t imageCount = _dyld_image_count();
     const struct mach_header * header = FAILED_UINT_PTR_ADDRESS;
     
@@ -357,7 +268,7 @@ uint32_t lsl_imageIndexContainingAddress(const uintptr_t address) {
         header = _dyld_get_image_header(iImg);
         if (header != NULL) {
             uintptr_t addressWSlide = address - (uintptr_t)_dyld_get_image_vmaddr_slide(iImg);
-            uintptr_t cmdPtr = lsl_firstCmdAfterHeader(header);
+            uintptr_t cmdPtr = firstCmdAfterHeader(header);
             if (cmdPtr == FAILED_UINT_PTR_ADDRESS) { continue; }
             
             for (uint32_t iCmd = 0; iCmd < header->ncmds; iCmd++) {
@@ -384,17 +295,17 @@ uint32_t lsl_imageIndexContainingAddress(const uintptr_t address) {
 
 
 #pragma mark - generate backtrace entry
-const char * lsl_lastPathEntry(const char * const path) {
+const char * lastPathEntry(const char * const path) {
     if (path == NULL) { return NULL; }
     char * lastFile = strrchr(path, '/');
     return lastFile == NULL ? path: lastFile + 1;
 }
 
-NSString * lsl_logBacktraceEntry(const int entryNum, const uintptr_t address, const Dl_info * const dlInfo) {
+NSString * logBacktraceEntry(const int entryNum, const uintptr_t address, const Dl_info * const dlInfo) {
     char faddrBuffer[20];
     char saddrBuffer[20];
     
-    const char * fname = lsl_lastPathEntry(dlInfo->dli_fname);
+    const char * fname = lastPathEntry(dlInfo->dli_fname);
     if (fname == NULL) {
         sprintf(faddrBuffer, POINTER_FMT, (uintptr_t)dlInfo->dli_fbase);
         fname = faddrBuffer;
@@ -408,27 +319,6 @@ NSString * lsl_logBacktraceEntry(const int entryNum, const uintptr_t address, co
         offset = address - (uintptr_t)dlInfo->dli_fbase;
     }
     return [NSString stringWithFormat: @"%-30s 0x%08" PRIxPTR " %s + %lu\n", fname, (uintptr_t)address, sname, offset];
-}
-
-+ (NSString *)backtraceLogFilePath {
-    static NSString * const fileDirectoryName = @"lsl_backtrace";
-    NSString * filePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject stringByAppendingPathComponent: fileDirectoryName];
-    NSFileManager * manager = [NSFileManager defaultManager];
-    if (![manager fileExistsAtPath: filePath]) {
-        [manager createDirectoryAtPath: filePath withIntermediateDirectories: YES attributes: nil error: nil];
-    }
-    return filePath;
-}
-
-+ (void)recordLoggerWithFileName: (NSString *)fileName {
-    NSParameterAssert(fileName);
-    dispatch_async(lsl_log_IO_queue(), ^{
-        NSDateFormatter * formatter = [NSDateFormatter new];
-        formatter.dateFormat = @"mmssS";
-        NSString * filePath = [[self backtraceLogFilePath] stringByAppendingString: [formatter stringFromDate: [NSDate date]]];
-        NSString * backtraceStackInfo = [self lsl_backtraceOfMainThread];
-        [backtraceStackInfo writeToFile: filePath atomically: YES encoding: NSUTF8StringEncoding error: nil];
-    });
 }
 
 @end

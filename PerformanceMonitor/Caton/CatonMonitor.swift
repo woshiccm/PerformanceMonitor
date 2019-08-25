@@ -23,6 +23,7 @@ public class CatonMonitor {
     public init() {}
     
     public func start() {
+        let main = BackTrace.main_thread_t
         guard !isMonitoring else { return }
         
         isMonitoring = true
@@ -39,7 +40,8 @@ public class CatonMonitor {
                 Thread.sleep(forTimeInterval: Constants.timeOutInterval)
                 
                 if timeout {
-                    BackTrace.logMain()
+
+                    print(BackTrace.callStack(.main))
                 }
                 self.semaphore.wait()
             }

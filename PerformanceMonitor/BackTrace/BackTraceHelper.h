@@ -7,19 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <dlfcn.h>
+#import <limits.h>
+#import <string.h>
+#import <pthread.h>
+#import <sys/types.h>
+#import <mach/mach.h>
+#import <mach-o/nlist.h>
+#import <mach-o/dyld.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BackTraceHelper : NSObject
 
-+ (NSString *)lsl_backtraceOfAllThread;
-+ (NSString *)lsl_backtraceOfMainThread;
-+ (NSString *)lsl_backtraceOfCurrentThread;
-+ (NSString *)lsl_backtraceOfNSThread:(NSThread *)thread;
-
-+ (void)lsl_logMain;
-+ (void)lsl_logCurrent;
-+ (void)lsl_logAllThread;
++ (NSString *)backtraceOfMachthread:(thread_t)thread;
 
 + (NSString *)backtraceLogFilePath;
 + (void)recordLoggerWithFileName: (NSString *)fileName;
