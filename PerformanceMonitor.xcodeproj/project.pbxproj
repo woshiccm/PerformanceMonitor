@@ -19,13 +19,14 @@
 		3A4D8C47231162A400C22EFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A4D8C46231162A300C22EFD /* Assets.xcassets */; };
 		3A4D8C4A231162A400C22EFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A4D8C48231162A400C22EFD /* LaunchScreen.storyboard */; };
 		3A4D8C56231173C800C22EFD /* FPSMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4D8C55231173C800C22EFD /* FPSMonitor.swift */; };
-		3A4D8C8F23126D7300C22EFD /* MarginLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4D8C8E23126D7200C22EFD /* MarginLabel.swift */; };
 		3A4D8C94231299BE00C22EFD /* CatonMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4D8C93231299BE00C22EFD /* CatonMonitor.swift */; };
-		3A4D8C962312A5E400C22EFD /* LSLFPSTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4D8C952312A5E400C22EFD /* LSLFPSTableViewController.swift */; };
 		3A4D8C982312B8DF00C22EFD /* BackTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4D8C972312B8DF00C22EFD /* BackTrace.swift */; };
-		3A4D8C9A2312B98800C22EFD /* ThreadHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4D8C992312B98800C22EFD /* ThreadHandler.swift */; };
-		3A4D8C9D2312BDCB00C22EFD /* BackTraceHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A4D8C9B2312BDCB00C22EFD /* BackTraceHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3A4D8C9E2312BDCB00C22EFD /* BackTraceHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4D8C9C2312BDCB00C22EFD /* BackTraceHelper.m */; };
+		3A4D8C9D2312BDCB00C22EFD /* BackTraceObjc.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A4D8C9B2312BDCB00C22EFD /* BackTraceObjc.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A4D8C9E2312BDCB00C22EFD /* BackTraceObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4D8C9C2312BDCB00C22EFD /* BackTraceObjc.m */; };
+		9C1017A42313CAF000158CA4 /* PerformanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1017A32313CAF000158CA4 /* PerformanceView.swift */; };
+		9C1017A72313DB2700158CA4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C1017A62313DB2700158CA4 /* Assets.xcassets */; };
+		9C1017A92313DCB700158CA4 /* PerformanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1017A82313DCB700158CA4 /* PerformanceViewController.swift */; };
+		9C1017AB23140D7B00158CA4 /* FPSTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1017AA23140D7B00158CA4 /* FPSTestViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,13 +57,14 @@
 		3A4D8C49231162A400C22EFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3A4D8C4B231162A400C22EFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A4D8C55231173C800C22EFD /* FPSMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPSMonitor.swift; sourceTree = "<group>"; };
-		3A4D8C8E23126D7200C22EFD /* MarginLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarginLabel.swift; sourceTree = "<group>"; };
 		3A4D8C93231299BE00C22EFD /* CatonMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatonMonitor.swift; sourceTree = "<group>"; };
-		3A4D8C952312A5E400C22EFD /* LSLFPSTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSLFPSTableViewController.swift; sourceTree = "<group>"; };
 		3A4D8C972312B8DF00C22EFD /* BackTrace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackTrace.swift; sourceTree = "<group>"; };
-		3A4D8C992312B98800C22EFD /* ThreadHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadHandler.swift; sourceTree = "<group>"; };
-		3A4D8C9B2312BDCB00C22EFD /* BackTraceHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BackTraceHelper.h; sourceTree = "<group>"; };
-		3A4D8C9C2312BDCB00C22EFD /* BackTraceHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BackTraceHelper.m; sourceTree = "<group>"; };
+		3A4D8C9B2312BDCB00C22EFD /* BackTraceObjc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BackTraceObjc.h; sourceTree = "<group>"; };
+		3A4D8C9C2312BDCB00C22EFD /* BackTraceObjc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BackTraceObjc.m; sourceTree = "<group>"; };
+		9C1017A32313CAF000158CA4 /* PerformanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceView.swift; sourceTree = "<group>"; };
+		9C1017A62313DB2700158CA4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9C1017A82313DCB700158CA4 /* PerformanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceViewController.swift; sourceTree = "<group>"; };
+		9C1017AA23140D7B00158CA4 /* FPSTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPSTestViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 		3A4D8BD823111FC300C22EFD /* PerformanceMonitor */ = {
 			isa = PBXGroup;
 			children = (
+				9C1017A52313D95B00158CA4 /* UI */,
 				3A4D8C902312705600C22EFD /* BackTrace */,
 				3A4D8C89231267B000C22EFD /* Battery */,
 				3A4D8C592311806900C22EFD /* Caton */,
@@ -122,7 +125,7 @@
 				3A4D8C50231162D300C22EFD /* CPU */,
 				3A4D8BD923111FC300C22EFD /* PerformanceMonitor.h */,
 				3A4D8BF02311200E00C22EFD /* PerformanceMonitor.swift */,
-				3A4D8C8E23126D7200C22EFD /* MarginLabel.swift */,
+				9C1017A62313DB2700158CA4 /* Assets.xcassets */,
 				3A4D8BDA23111FC300C22EFD /* Info.plist */,
 			);
 			path = PerformanceMonitor;
@@ -142,7 +145,7 @@
 			children = (
 				3A4D8C3F231162A200C22EFD /* AppDelegate.swift */,
 				3A4D8C41231162A200C22EFD /* ViewController.swift */,
-				3A4D8C952312A5E400C22EFD /* LSLFPSTableViewController.swift */,
+				9C1017AA23140D7B00158CA4 /* FPSTestViewController.swift */,
 				3A4D8C43231162A200C22EFD /* Main.storyboard */,
 				3A4D8C46231162A300C22EFD /* Assets.xcassets */,
 				3A4D8C48231162A400C22EFD /* LaunchScreen.storyboard */,
@@ -194,11 +197,19 @@
 			isa = PBXGroup;
 			children = (
 				3A4D8C972312B8DF00C22EFD /* BackTrace.swift */,
-				3A4D8C992312B98800C22EFD /* ThreadHandler.swift */,
-				3A4D8C9B2312BDCB00C22EFD /* BackTraceHelper.h */,
-				3A4D8C9C2312BDCB00C22EFD /* BackTraceHelper.m */,
+				3A4D8C9B2312BDCB00C22EFD /* BackTraceObjc.h */,
+				3A4D8C9C2312BDCB00C22EFD /* BackTraceObjc.m */,
 			);
 			path = BackTrace;
+			sourceTree = "<group>";
+		};
+		9C1017A52313D95B00158CA4 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				9C1017A32313CAF000158CA4 /* PerformanceView.swift */,
+				9C1017A82313DCB700158CA4 /* PerformanceViewController.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,7 +220,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A4D8BE723111FC300C22EFD /* PerformanceMonitor.h in Headers */,
-				3A4D8C9D2312BDCB00C22EFD /* BackTraceHelper.h in Headers */,
+				3A4D8C9D2312BDCB00C22EFD /* BackTraceObjc.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,6 +327,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C1017A72313DB2700158CA4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,13 +355,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C1017A92313DCB700158CA4 /* PerformanceViewController.swift in Sources */,
 				3A4D8BF12311200E00C22EFD /* PerformanceMonitor.swift in Sources */,
 				3A4D8BF52311254900C22EFD /* MemoryMonitor.swift in Sources */,
 				3A4D8C94231299BE00C22EFD /* CatonMonitor.swift in Sources */,
-				3A4D8C8F23126D7300C22EFD /* MarginLabel.swift in Sources */,
-				3A4D8C9A2312B98800C22EFD /* ThreadHandler.swift in Sources */,
 				3A4D8BF32311253900C22EFD /* CPUMonitor.swift in Sources */,
-				3A4D8C9E2312BDCB00C22EFD /* BackTraceHelper.m in Sources */,
+				9C1017A42313CAF000158CA4 /* PerformanceView.swift in Sources */,
+				3A4D8C9E2312BDCB00C22EFD /* BackTraceObjc.m in Sources */,
 				3A4D8C56231173C800C22EFD /* FPSMonitor.swift in Sources */,
 				3A4D8C982312B8DF00C22EFD /* BackTrace.swift in Sources */,
 			);
@@ -368,7 +380,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A4D8C42231162A200C22EFD /* ViewController.swift in Sources */,
-				3A4D8C962312A5E400C22EFD /* LSLFPSTableViewController.swift in Sources */,
+				9C1017AB23140D7B00158CA4 /* FPSTestViewController.swift in Sources */,
 				3A4D8C40231162A200C22EFD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -540,6 +552,7 @@
 				ENABLE_ON_DEMAND_RESOURCES = NO;
 				INFOPLIST_FILE = PerformanceMonitor/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -567,6 +580,7 @@
 				ENABLE_ON_DEMAND_RESOURCES = NO;
 				INFOPLIST_FILE = PerformanceMonitor/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -624,6 +638,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = PerformanceMonitorDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -641,6 +656,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = PerformanceMonitorDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

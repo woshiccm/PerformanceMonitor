@@ -2,7 +2,7 @@
 //  FPSHelper.swift
 //  PerformanceMonitor
 //
-//  Created by ming on 2019/8/24.
+//  Created by roy.cao on 2019/8/24.
 //  Copyright © 2019 roy. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import Foundation
 
 @objc public protocol FPSMonitorDelegate: class {
     
-    func fPS(with monitor: FPSMonitor, fps: Double)
+    func fpsMonitor(with monitor: FPSMonitor, fps: Double)
 }
 
 public class FPSMonitor: NSObject {
@@ -85,7 +85,7 @@ public class FPSMonitor: NSObject {
         let fps = Double(self.count) / timePassed
         self.count = 0
         
-        self.delegate?.fPS(with: self, fps: fps)
+        self.delegate?.fpsMonitor(with: self, fps: fps)
     }
 }
 

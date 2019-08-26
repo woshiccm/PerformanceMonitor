@@ -16,10 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var performanceMonitor: PerformanceMonitor?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        performanceMonitor = PerformanceMonitor()
+        performanceMonitor = PerformanceMonitor(displayOptions: [.cpu, .memory, .fps, .caton])
         performanceMonitor?.start()
         
         return true

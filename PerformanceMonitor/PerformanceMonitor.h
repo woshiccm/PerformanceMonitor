@@ -17,4 +17,4 @@ FOUNDATION_EXPORT const unsigned char PerformanceMonitorVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <PerformanceMonitor/PublicHeader.h>
 
 
-#import "BackTraceHelper.h"
+#import "BackTraceObjc.h"

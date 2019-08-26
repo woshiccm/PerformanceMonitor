@@ -2,7 +2,7 @@
 //  BackTrace.swift
 //  PerformanceMonitor
 //
-//  Created by ming on 2019/8/25.
+//  Created by roy.cao on 2019/8/25.
 //  Copyright © 2019 roy. All rights reserved.
 //
 
@@ -28,30 +28,29 @@ extension String {
 }
 
 public class BackTrace {
-    
+
     public static let main_thread_t = mach_thread_self()
     
     public static func callStack(_ thread: Thread) -> String {
         let pthread = machThread(from: thread)
-        
-        return BackTraceHelper.backtrace(ofMachthread: pthread)
+        return BackTraceObjc.backtrace(ofMachthread: pthread)
     }
-    
-    static func machThread(from thread: Thread) -> thread_t {
+
+    public static func machThread(from thread: Thread) -> thread_t {
         var name: [Int8] = [Int8]()
-        var count: mach_msg_type_number_t = 0
+        var count = mach_msg_type_number_t(0)
         var threads: thread_act_array_t!
-        
+
         guard task_threads(mach_task_self_, &(threads), &count) == KERN_SUCCESS else {
             return mach_thread_self()
         }
-        
+
         if thread.isMainThread {
             return self.main_thread_t
         }
-        
+
         let originName = thread.name
-        
+
         for i in 0..<count {
             let index = Int(i)
             if let p_thread = pthread_from_mach_thread_np((threads[index])) {
@@ -63,7 +62,7 @@ public class BackTrace {
                 }
             }
         }
-        
+
         thread.name = originName
         return mach_thread_self()
     }
