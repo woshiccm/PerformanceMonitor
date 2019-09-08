@@ -8,6 +8,7 @@
 
 import UIKit
 import PerformanceMonitor
+import RCBacktrace
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,9 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var performanceMonitor: PerformanceMonitor?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        performanceMonitor = PerformanceMonitor(displayOptions: [.cpu, .memory, .fps, .caton])
+
+        RCBacktrace.setup()
+        performanceMonitor = PerformanceMonitor(displayOptions: [.cpu, .memory, .fps, .fluecy])
         performanceMonitor?.start()
+
+        SwiftTrace.traceBundle(containing: type(of: self))
         
         return true
     }

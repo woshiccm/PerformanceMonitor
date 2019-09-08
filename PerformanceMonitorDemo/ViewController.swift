@@ -13,6 +13,13 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+//        let imgPrefix = self.imagePrefix()
+//        var imageCount:UInt32 = 0
+//        let images = objc_copyImageNames(&imageCount)
+//        for i in 0 ..< imageCount {
+//            let imagePath = String(cString: images[Int(i)])
+//        }
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

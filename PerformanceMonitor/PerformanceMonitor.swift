@@ -7,8 +7,16 @@
 //
 
 import UIKit
+import RCBacktrace
 
 public class PerformanceMonitor {
+
+    enum Constants {
+        static let cpuTimeInterval = 3
+        static let maxCUPUsage: Double = 80
+    }
+
+    private var cpuTime = 1
     
     public static let `default` = PerformanceMonitor()
 
@@ -23,9 +31,9 @@ public class PerformanceMonitor {
 
         public static let fps = DisplayOptions(rawValue: 1 << 2)
 
-        public static let caton = DisplayOptions(rawValue: 1 << 3)
+        public static let fluecy = DisplayOptions(rawValue: 1 << 3)
         
-        public static let all: DisplayOptions = [.cpu, .memory, .fps, .caton]
+        public static let all: DisplayOptions = [.cpu, .memory, .fps, .fluecy]
         
         public init(rawValue: Int) {
             self.rawValue = rawValue
@@ -35,7 +43,7 @@ public class PerformanceMonitor {
     private var monitoringTimer: DispatchSourceTimer?
     private var displayOptions: DisplayOptions = .all
     private var fpsMonitor: FPSMonitor?
-    private var catonMonitor: CatonMonitor?
+    private var fluecyMonitor: FluecyMonitor?
 
     public init(displayOptions: DisplayOptions = .all) {
         self.displayOptions = displayOptions
@@ -44,9 +52,9 @@ public class PerformanceMonitor {
             fpsMonitor?.delegate = self
         }
 
-        if displayOptions.contains(.caton) {
-            catonMonitor = CatonMonitor()
-            catonMonitor?.start()
+        if displayOptions.contains(.fluecy) {
+            fluecyMonitor = FluecyMonitor()
+            fluecyMonitor?.start()
         }
     }
 
@@ -62,6 +70,19 @@ public class PerformanceMonitor {
                 if strongSelf.displayOptions.contains(.cpu) {
                     let cpu = String.init(format: "%.1f", CPUMonitor.usage())
                     string += "CPU: \(cpu)% \n"
+
+                    strongSelf.cpuTime += 1
+                    if strongSelf.cpuTime > Constants.cpuTimeInterval {
+                        if CPUMonitor.usage() > Constants.maxCUPUsage {
+                            print("CPU usage is too high -------------------------------------------")
+                            let symbols = RCBacktrace.callstack(.current)
+                            for symbol in symbols {
+                                print(symbol.description)
+                            }
+                            print("CPU usage is too high -------------------------------------------")
+                            strongSelf.cpuTime = 1
+                        }
+                    }
                 }
 
                 if strongSelf.displayOptions.contains(.memory) {

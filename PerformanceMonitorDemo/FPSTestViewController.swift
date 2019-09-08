@@ -26,8 +26,6 @@ class FPSTestViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
 
-
-
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.description())
         view.addSubview(tableView)
 
