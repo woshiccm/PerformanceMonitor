@@ -1,6 +1,6 @@
 //
-//  SwiftTrace.m
-//  SwiftTrace
+//  MethodTimeMonitor.m
+//  MethodTimeMonitor
 //
 //  Repo: https://github.com/johnno1962/SwiftTrace
 //  $Id: //depot/SwiftTrace/SwiftTrace/SwiftTrace.mm#37 $

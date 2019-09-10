@@ -25,11 +25,12 @@
 		9C1017A72313DB2700158CA4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C1017A62313DB2700158CA4 /* Assets.xcassets */; };
 		9C1017A92313DCB700158CA4 /* PerformanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1017A82313DCB700158CA4 /* PerformanceViewController.swift */; };
 		9C1017AB23140D7B00158CA4 /* FPSTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1017AA23140D7B00158CA4 /* FPSTestViewController.swift */; };
+		9C1CD2AF2327A7D000B67B84 /* MethodTimeMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C1CD2AE2327A7D000B67B84 /* MethodTimeMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9C4A2B53231BCF160066342F /* RCBacktrace.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C4A2B52231BCF160066342F /* RCBacktrace.framework */; };
 		9C4A2B55231BCF320066342F /* PerformanceMonitor.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3A4D8BD623111FC300C22EFD /* PerformanceMonitor.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9CDEF88B232510E000E7D77B /* ThreadLocal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEF882232510E000E7D77B /* ThreadLocal.swift */; };
 		9CDEF88C232510E000E7D77B /* xt_forwarding_trampoline_arm7.s in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEF883232510E000E7D77B /* xt_forwarding_trampoline_arm7.s */; };
-		9CDEF88D232510E000E7D77B /* SwiftTrace.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEF884232510E000E7D77B /* SwiftTrace.mm */; };
+		9CDEF88D232510E000E7D77B /* MethodTimeMonitor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEF884232510E000E7D77B /* MethodTimeMonitor.mm */; };
 		9CDEF88F232510E000E7D77B /* MethodTimeMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEF886232510E000E7D77B /* MethodTimeMonitor.swift */; };
 		9CDEF890232510E000E7D77B /* xt_forwarding_trampoline_x64.s in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEF887232510E000E7D77B /* xt_forwarding_trampoline_x64.s */; };
 		9CDEF892232510E000E7D77B /* xt_forwarding_trampoline_arm64.s in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEF889232510E000E7D77B /* xt_forwarding_trampoline_arm64.s */; };
@@ -95,11 +96,12 @@
 		9C1017A62313DB2700158CA4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9C1017A82313DCB700158CA4 /* PerformanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceViewController.swift; sourceTree = "<group>"; };
 		9C1017AA23140D7B00158CA4 /* FPSTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPSTestViewController.swift; sourceTree = "<group>"; };
+		9C1CD2AE2327A7D000B67B84 /* MethodTimeMonitor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MethodTimeMonitor.h; sourceTree = "<group>"; };
 		9C4A2B52231BCF160066342F /* RCBacktrace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RCBacktrace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C4A2B59231BCF920066342F /* RCBacktrace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RCBacktrace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CDEF882232510E000E7D77B /* ThreadLocal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadLocal.swift; sourceTree = "<group>"; };
 		9CDEF883232510E000E7D77B /* xt_forwarding_trampoline_arm7.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = xt_forwarding_trampoline_arm7.s; sourceTree = "<group>"; };
-		9CDEF884232510E000E7D77B /* SwiftTrace.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwiftTrace.mm; sourceTree = "<group>"; };
+		9CDEF884232510E000E7D77B /* MethodTimeMonitor.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MethodTimeMonitor.mm; sourceTree = "<group>"; };
 		9CDEF886232510E000E7D77B /* MethodTimeMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MethodTimeMonitor.swift; sourceTree = "<group>"; };
 		9CDEF887232510E000E7D77B /* xt_forwarding_trampoline_x64.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = xt_forwarding_trampoline_x64.s; sourceTree = "<group>"; };
 		9CDEF889232510E000E7D77B /* xt_forwarding_trampoline_arm64.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = xt_forwarding_trampoline_arm64.s; sourceTree = "<group>"; };
@@ -254,7 +256,8 @@
 		9CDEF881232510CC00E7D77B /* MethodTimeMonitor */ = {
 			isa = PBXGroup;
 			children = (
-				9CDEF884232510E000E7D77B /* SwiftTrace.mm */,
+				9CDEF884232510E000E7D77B /* MethodTimeMonitor.mm */,
+				9C1CD2AE2327A7D000B67B84 /* MethodTimeMonitor.h */,
 				9CDEF886232510E000E7D77B /* MethodTimeMonitor.swift */,
 				9CDEF882232510E000E7D77B /* ThreadLocal.swift */,
 				9CDEF883232510E000E7D77B /* xt_forwarding_trampoline_arm7.s */,
@@ -284,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A4D8BE723111FC300C22EFD /* PerformanceMonitor.h in Headers */,
+				9C1CD2AF2327A7D000B67B84 /* MethodTimeMonitor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -499,7 +503,7 @@
 				3A4D8C56231173C800C22EFD /* FPSMonitor.swift in Sources */,
 				9CDEF893232510E000E7D77B /* xt_forwarding_trampoline_x86.s in Sources */,
 				9CDEF88B232510E000E7D77B /* ThreadLocal.swift in Sources */,
-				9CDEF88D232510E000E7D77B /* SwiftTrace.mm in Sources */,
+				9CDEF88D232510E000E7D77B /* MethodTimeMonitor.mm in Sources */,
 				9CDEF892232510E000E7D77B /* xt_forwarding_trampoline_arm64.s in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
