@@ -5,7 +5,6 @@
 //  Created by roy.cao on 2019/8/25.
 //  Copyright © 2019 roy. All rights reserved.
 //
-// https://cloud.tencent.com/developer/article/1427933
 
 import Foundation
 import RCBacktrace

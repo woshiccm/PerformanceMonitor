@@ -37,7 +37,6 @@
 
 #import <AssertMacros.h>
 #import <libkern/OSAtomic.h>
-#import <os/lock.h>
 
 #import <mach/vm_types.h>
 #import <mach/vm_map.h>
@@ -46,7 +45,7 @@
 extern char xt_forwarding_trampoline_page, xt_forwarding_trampolines_start,
             xt_forwarding_trampolines_next, xt_forwarding_trampolines_end;
 
-static os_unfair_lock lock = OS_UNFAIR_LOCK_INIT;
+static OSSpinLock lock = OS_SPINLOCK_INIT;
 
 // trampoline implementation specific stuff...
 typedef struct {
@@ -151,7 +150,7 @@ static SPLForwardingTrampolinePage *nextTrampolinePage()
 IMP imp_implementationForwardingToTracer(void *patch, IMP onEntry, IMP onExit)
 {
 
-    os_unfair_lock_lock(&lock);
+    OSSpinLockLock(&lock);
 
     SPLForwardingTrampolinePage *dataPageLayout = nextTrampolinePage();
 
@@ -168,7 +167,7 @@ IMP imp_implementationForwardingToTracer(void *patch, IMP onEntry, IMP onExit)
 
     IMP implementation = (IMP)&dataPageLayout->trampolineEntryPoints[nextAvailableTrampolineIndex];
 
-    os_unfair_lock_unlock(&lock);
+    OSSpinLockUnlock(&lock);
     
     return implementation;
 }

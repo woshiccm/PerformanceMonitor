@@ -5,17 +5,16 @@
 //  Created by roy.cao on 2019/9/8.
 //  Copyright © 2019 roy. All rights reserved.
 //
-// Reference: https://github.com/johnno1962/SwiftTrace
 
 import Foundation
 
 // https://github.com/apple/swift/blob/master/docs/ABI/TypeMetadata.rst#class-metadata
 struct SwiftClassMetada {
-    let metaClass: uintptr_t
-    let superClass: uintptr_t
-    let reserved1: uintptr_t
-    let reserved2: uintptr_t
-    let rodataPointer: uintptr_t
+    let metaClass: Int
+    let superClass: Any.Type
+    let reserved1: Int
+    let reserved2: Int
+    let rodataPointer: Int
     let flags: UInt32
     let instanceAddressPoint: UInt32
     let instanceSize: UInt32
@@ -24,10 +23,12 @@ struct SwiftClassMetada {
 
     let classSize: UInt32
     let classAddressPoint: UInt32
-    let descriptor: uintptr_t
+    let descriptor: Int
     var ivarDestroyer: UnsafeMutableRawPointer? = nil
     // the follow is vtable
 }
+
+// Reference: https://github.com/johnno1962/SwiftTrace
 
 #if arch(arm64)
 
@@ -188,7 +189,7 @@ public protocol MethodTimeMonitorDelegate: AnyObject {
 
 open class MethodTimeMonitor: NSObject {
 
-    public static var delegate: MethodTimeMonitorDelegate?
+    public static weak var delegate: MethodTimeMonitorDelegate?
 
     static var threadLocal = ThreadLocal<[Patch.Invocation]>([])
 
