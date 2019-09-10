@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = 'PerformanceMonitor'
-  spec.version = '0.0.1'
+  spec.version = '0.0.2'
   spec.license = 'MIT'
   spec.summary = 'PerformanceMonitor is a non-invasive APM system, Including monitoring CPU,Memory,FPS,Recording all OC and Swift methods time consuming,etc.'
   spec.homepage = 'https://github.com/woshiccm/PerformanceMonitor'
