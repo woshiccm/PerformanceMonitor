@@ -24,7 +24,7 @@ PerformanceMonitor is a non-invasive APM system, Including monitoring CPU,Memory
 
 >Note: none of these features will work on a class or method that is final or internal in a module compiled with whole module optimisation as the dispatch of the method will be "direct" i.e. linked to a symbol at the call site rather than going through the class' vtable.
 
-![Screen Shot 2019-09-08 at 3.44.08 PM.png](https://upload-images.jianshu.io/upload_images/2086987-a4b882686eaa057f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![Screen Shot 2019-09-08 at 4.09.41 PM.png](https://upload-images.jianshu.io/upload_images/2086987-4fec99a35eac32c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ![Screen Shot 2019-09-08 at 3.44.23 PM.png](https://upload-images.jianshu.io/upload_images/2086987-e6a741cedc62c567.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 

@@ -10,6 +10,13 @@ import UIKit
 import PerformanceMonitor
 import RCBacktrace
 
+extension AppDelegate: MethodTimeMonitorDelegate {
+
+    func methodTimeMonitor(_ record: MethodTimeMonitorRecord) {
+        print(record.description)
+    }
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -23,7 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         performanceMonitor = PerformanceMonitor(displayOptions: [.cpu, .memory, .fps, .fluecy])
         performanceMonitor?.start()
 
-        SwiftTrace.traceBundle(containing: type(of: self))
+        MethodTimeMonitor.traceBundle(containing: type(of: self))
+        MethodTimeMonitor.delegate = self
         
         return true
     }

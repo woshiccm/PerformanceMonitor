@@ -27,12 +27,13 @@
 		9C1017AB23140D7B00158CA4 /* FPSTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1017AA23140D7B00158CA4 /* FPSTestViewController.swift */; };
 		9C4A2B53231BCF160066342F /* RCBacktrace.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C4A2B52231BCF160066342F /* RCBacktrace.framework */; };
 		9C4A2B55231BCF320066342F /* PerformanceMonitor.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3A4D8BD623111FC300C22EFD /* PerformanceMonitor.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9CD5BB4D2323B59C003B3767 /* xt_forwarding_trampoline_arm64.s in Sources */ = {isa = PBXBuildFile; fileRef = 9CD5BB472323B59B003B3767 /* xt_forwarding_trampoline_arm64.s */; };
-		9CD5BB4E2323B59C003B3767 /* SwiftTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD5BB482323B59B003B3767 /* SwiftTrace.swift */; };
-		9CD5BB4F2323B59C003B3767 /* xt_forwarding_trampoline_x86.s in Sources */ = {isa = PBXBuildFile; fileRef = 9CD5BB492323B59B003B3767 /* xt_forwarding_trampoline_x86.s */; };
-		9CD5BB502323B59C003B3767 /* xt_forwarding_trampoline_x64.s in Sources */ = {isa = PBXBuildFile; fileRef = 9CD5BB4A2323B59B003B3767 /* xt_forwarding_trampoline_x64.s */; };
-		9CD5BB512323B59C003B3767 /* xt_forwarding_trampoline_arm7.s in Sources */ = {isa = PBXBuildFile; fileRef = 9CD5BB4B2323B59B003B3767 /* xt_forwarding_trampoline_arm7.s */; };
-		9CD5BB522323B59C003B3767 /* SwiftTrace.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9CD5BB4C2323B59B003B3767 /* SwiftTrace.mm */; };
+		9CDEF88B232510E000E7D77B /* ThreadLocal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEF882232510E000E7D77B /* ThreadLocal.swift */; };
+		9CDEF88C232510E000E7D77B /* xt_forwarding_trampoline_arm7.s in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEF883232510E000E7D77B /* xt_forwarding_trampoline_arm7.s */; };
+		9CDEF88D232510E000E7D77B /* SwiftTrace.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEF884232510E000E7D77B /* SwiftTrace.mm */; };
+		9CDEF88F232510E000E7D77B /* MethodTimeMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEF886232510E000E7D77B /* MethodTimeMonitor.swift */; };
+		9CDEF890232510E000E7D77B /* xt_forwarding_trampoline_x64.s in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEF887232510E000E7D77B /* xt_forwarding_trampoline_x64.s */; };
+		9CDEF892232510E000E7D77B /* xt_forwarding_trampoline_arm64.s in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEF889232510E000E7D77B /* xt_forwarding_trampoline_arm64.s */; };
+		9CDEF893232510E000E7D77B /* xt_forwarding_trampoline_x86.s in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEF88A232510E000E7D77B /* xt_forwarding_trampoline_x86.s */; };
 		A0967CD0CF6A38CA8B0B8D33 /* Pods_PerformanceMonitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BD76E55677865B920D13A14 /* Pods_PerformanceMonitor.framework */; };
 /* End PBXBuildFile section */
 
@@ -96,12 +97,13 @@
 		9C1017AA23140D7B00158CA4 /* FPSTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPSTestViewController.swift; sourceTree = "<group>"; };
 		9C4A2B52231BCF160066342F /* RCBacktrace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RCBacktrace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C4A2B59231BCF920066342F /* RCBacktrace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RCBacktrace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9CD5BB472323B59B003B3767 /* xt_forwarding_trampoline_arm64.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = xt_forwarding_trampoline_arm64.s; sourceTree = "<group>"; };
-		9CD5BB482323B59B003B3767 /* SwiftTrace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftTrace.swift; sourceTree = "<group>"; };
-		9CD5BB492323B59B003B3767 /* xt_forwarding_trampoline_x86.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = xt_forwarding_trampoline_x86.s; sourceTree = "<group>"; };
-		9CD5BB4A2323B59B003B3767 /* xt_forwarding_trampoline_x64.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = xt_forwarding_trampoline_x64.s; sourceTree = "<group>"; };
-		9CD5BB4B2323B59B003B3767 /* xt_forwarding_trampoline_arm7.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = xt_forwarding_trampoline_arm7.s; sourceTree = "<group>"; };
-		9CD5BB4C2323B59B003B3767 /* SwiftTrace.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwiftTrace.mm; sourceTree = "<group>"; };
+		9CDEF882232510E000E7D77B /* ThreadLocal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadLocal.swift; sourceTree = "<group>"; };
+		9CDEF883232510E000E7D77B /* xt_forwarding_trampoline_arm7.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = xt_forwarding_trampoline_arm7.s; sourceTree = "<group>"; };
+		9CDEF884232510E000E7D77B /* SwiftTrace.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwiftTrace.mm; sourceTree = "<group>"; };
+		9CDEF886232510E000E7D77B /* MethodTimeMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MethodTimeMonitor.swift; sourceTree = "<group>"; };
+		9CDEF887232510E000E7D77B /* xt_forwarding_trampoline_x64.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = xt_forwarding_trampoline_x64.s; sourceTree = "<group>"; };
+		9CDEF889232510E000E7D77B /* xt_forwarding_trampoline_arm64.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = xt_forwarding_trampoline_arm64.s; sourceTree = "<group>"; };
+		9CDEF88A232510E000E7D77B /* xt_forwarding_trampoline_x86.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = xt_forwarding_trampoline_x86.s; sourceTree = "<group>"; };
 		DF421D5C4F1CD3FDA166A652 /* Pods-PerformanceMonitor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PerformanceMonitor.debug.xcconfig"; path = "Target Support Files/Pods-PerformanceMonitor/Pods-PerformanceMonitor.debug.xcconfig"; sourceTree = "<group>"; };
 		E6B157F54F834692085A3B27 /* Pods-PerformanceMonitor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PerformanceMonitor.release.xcconfig"; path = "Target Support Files/Pods-PerformanceMonitor/Pods-PerformanceMonitor.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,7 +173,7 @@
 		3A4D8BD823111FC300C22EFD /* PerformanceMonitor */ = {
 			isa = PBXGroup;
 			children = (
-				9CD5BB462323B575003B3767 /* SwiftTrace */,
+				9CDEF881232510CC00E7D77B /* MethodTimeMonitor */,
 				9C1017A52313D95B00158CA4 /* UI */,
 				3A4D8C592311806900C22EFD /* Fluecy */,
 				3A4D8C52231162FD00C22EFD /* FPS */,
@@ -249,17 +251,18 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
-		9CD5BB462323B575003B3767 /* SwiftTrace */ = {
+		9CDEF881232510CC00E7D77B /* MethodTimeMonitor */ = {
 			isa = PBXGroup;
 			children = (
-				9CD5BB4C2323B59B003B3767 /* SwiftTrace.mm */,
-				9CD5BB482323B59B003B3767 /* SwiftTrace.swift */,
-				9CD5BB4B2323B59B003B3767 /* xt_forwarding_trampoline_arm7.s */,
-				9CD5BB472323B59B003B3767 /* xt_forwarding_trampoline_arm64.s */,
-				9CD5BB4A2323B59B003B3767 /* xt_forwarding_trampoline_x64.s */,
-				9CD5BB492323B59B003B3767 /* xt_forwarding_trampoline_x86.s */,
+				9CDEF884232510E000E7D77B /* SwiftTrace.mm */,
+				9CDEF886232510E000E7D77B /* MethodTimeMonitor.swift */,
+				9CDEF882232510E000E7D77B /* ThreadLocal.swift */,
+				9CDEF883232510E000E7D77B /* xt_forwarding_trampoline_arm7.s */,
+				9CDEF889232510E000E7D77B /* xt_forwarding_trampoline_arm64.s */,
+				9CDEF887232510E000E7D77B /* xt_forwarding_trampoline_x64.s */,
+				9CDEF88A232510E000E7D77B /* xt_forwarding_trampoline_x86.s */,
 			);
-			path = SwiftTrace;
+			path = MethodTimeMonitor;
 			sourceTree = "<group>";
 		};
 		EAFD2111C37D5BECD7573720 /* Frameworks */ = {
@@ -484,19 +487,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CDEF88C232510E000E7D77B /* xt_forwarding_trampoline_arm7.s in Sources */,
 				9C1017A92313DCB700158CA4 /* PerformanceViewController.swift in Sources */,
+				9CDEF890232510E000E7D77B /* xt_forwarding_trampoline_x64.s in Sources */,
 				3A4D8BF12311200E00C22EFD /* PerformanceMonitor.swift in Sources */,
 				3A4D8BF52311254900C22EFD /* MemoryMonitor.swift in Sources */,
 				3A4D8C94231299BE00C22EFD /* FluecyMonitor.swift in Sources */,
-				9CD5BB522323B59C003B3767 /* SwiftTrace.mm in Sources */,
-				9CD5BB502323B59C003B3767 /* xt_forwarding_trampoline_x64.s in Sources */,
-				9CD5BB4F2323B59C003B3767 /* xt_forwarding_trampoline_x86.s in Sources */,
-				9CD5BB512323B59C003B3767 /* xt_forwarding_trampoline_arm7.s in Sources */,
-				9CD5BB4D2323B59C003B3767 /* xt_forwarding_trampoline_arm64.s in Sources */,
 				3A4D8BF32311253900C22EFD /* CPUMonitor.swift in Sources */,
+				9CDEF88F232510E000E7D77B /* MethodTimeMonitor.swift in Sources */,
 				9C1017A42313CAF000158CA4 /* PerformanceView.swift in Sources */,
-				9CD5BB4E2323B59C003B3767 /* SwiftTrace.swift in Sources */,
 				3A4D8C56231173C800C22EFD /* FPSMonitor.swift in Sources */,
+				9CDEF893232510E000E7D77B /* xt_forwarding_trampoline_x86.s in Sources */,
+				9CDEF88B232510E000E7D77B /* ThreadLocal.swift in Sources */,
+				9CDEF88D232510E000E7D77B /* SwiftTrace.mm in Sources */,
+				9CDEF892232510E000E7D77B /* xt_forwarding_trampoline_arm64.s in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

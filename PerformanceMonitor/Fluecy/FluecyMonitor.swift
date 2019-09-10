@@ -42,11 +42,11 @@ public class FluecyMonitor {
                 if timeout {
                     DispatchQueue.main.async {
                         let symbols = RCBacktrace.callstack(.main)
-                        print("Not fluecy ------------------------------------------------------------")
+                        print("👁 Not fluecy ------------------------------------------------------------")
                         for symbol in symbols {
                             print(symbol.description)
                         }
-                        print("Not fluecy -------------------------------------------------------------")
+                        print("👁 Not fluecy -------------------------------------------------------------")
                     }
                 }
                 self.semaphore.wait()

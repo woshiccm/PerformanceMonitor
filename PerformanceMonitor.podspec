@@ -8,13 +8,13 @@ Pod::Spec.new do |spec|
   spec.source    = { :git => "https://github.com/woshiccm/PerformanceMonitor.git", :tag => spec.version }
   spec.license = 'Code is private.'
 
-  spec.platforms = { :ios => '8.0' }
+  spec.platforms = { :ios => '9.0' }
   spec.requires_arc = true
 
   spec.cocoapods_version = '>= 1.4'
   spec.swift_version = ['4.2', '5.0']
 
-  spec.source_files = 'PerformanceMonitor/**/*.{h,mm,swift}'
+  spec.source_files = 'PerformanceMonitor/**/*.{h,mm,swift,s}'
 
   spec.dependency 'RCBacktrace', '~> 0.1.7'
 end
