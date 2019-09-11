@@ -73,7 +73,7 @@ platform :ios, '10.0'
 use_frameworks!
 
 target 'xxxx' do
-    pod 'PerformanceMonitor', '~> 0.0.4'
+    pod 'PerformanceMonitor', '~> 0.0.5'
 end
 
 ```

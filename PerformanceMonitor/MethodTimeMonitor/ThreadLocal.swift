@@ -10,7 +10,6 @@
 final class ThreadLocal<Value> {
 
     private final class Box<Value> {
-
         var value: Value
 
         init(_ value: Value) {
@@ -57,7 +56,7 @@ extension ThreadLocal: Hashable {
         hasher.combine(key.hashValue)
     }
 
-    static func ==<T>(lhs: ThreadLocal<T>, rhs: ThreadLocal<T>) -> Bool {
+    static func == <T>(lhs: ThreadLocal<T>, rhs: ThreadLocal<T>) -> Bool {
         return lhs.key == rhs.key
     }
 }

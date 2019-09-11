@@ -16,7 +16,6 @@ import Foundation
 public class FPSMonitor: NSObject {
     
     class WeakProxy {
-        
         weak var target: FPSMonitor?
         
         init(target: FPSMonitor) {

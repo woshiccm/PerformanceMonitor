@@ -24,7 +24,7 @@ struct SwiftClassMetada {
     let classSize: UInt32
     let classAddressPoint: UInt32
     let descriptor: Int
-    var ivarDestroyer: UnsafeMutableRawPointer? = nil
+    var ivarDestroyer: UnsafeMutableRawPointer?
     // the follow is vtable
 }
 
@@ -198,7 +198,6 @@ open class MethodTimeMonitor: NSObject {
 
     /// Strace "info" instance used to store information about a patch on a method
     class Patch: NSObject {
-
         /// Dictionary of patch objects created by trampoline */
         static var active = [IMP: Patch]()
 
@@ -252,8 +251,7 @@ open class MethodTimeMonitor: NSObject {
         }
 
         /// Called from assembly code on entry to Patched method
-        static var onEntry: @convention(c) (_ patch: Patch, _ returnAddress: UnsafeRawPointer,
-            _ stackPointer: UnsafeMutablePointer<UInt64>) -> IMP? = {
+        static var onEntry: @convention(c) (_ patch: Patch, _ returnAddress: UnsafeRawPointer, _ stackPointer: UnsafeMutablePointer<UInt64>) -> IMP? = {
                 (patch, returnAddress, stackPointer) -> IMP? in
                 let invocation = patch.invocationFactory.init(stackDepth: MethodTimeMonitor.threadLocal.value.count, patch: patch,
                                               returnAddress: returnAddress, stackPointer: stackPointer )
@@ -332,14 +330,12 @@ open class MethodTimeMonitor: NSObject {
         }
 
         /// convert arguments & return results to a specifi type
-        func rebind<IN,OUT>(_ pointer: UnsafeMutablePointer<IN>,
-                                 to: OUT.Type = OUT.self) -> UnsafeMutablePointer<OUT> {
+        func rebind<IN,OUT>(_ pointer: UnsafeMutablePointer<IN>, to: OUT.Type = OUT.self) -> UnsafeMutablePointer<OUT> {
             return pointer.withMemoryRebound(to: OUT.self, capacity: 1) { $0 }
         }
 
         /// Represents a specific call to a member function on the "ThreadLocal" stack
         class Invocation {
-
             /// Time call was started
             let timeEntered: Double
 
@@ -441,8 +437,7 @@ open class MethodTimeMonitor: NSObject {
         var info = Dl_info()
         if main != nil && dladdr(main, &info) != 0 && info.dli_fname != nil {
             trace(bundlePath: info.dli_fname)
-        }
-        else {
+        } else {
             fatalError("Could not locate main bundle")
         }
     }
@@ -450,8 +445,7 @@ open class MethodTimeMonitor: NSObject {
     /// Trace a classes defined in a specific bundlePath (executable image)
     @objc public class func trace(bundlePath: UnsafePointer<Int8>?) {
         var registered = Set<UnsafeRawPointer>()
-        forAllClasses {
-            (aClass, stop) in
+        forAllClasses { aClass, _ in
             if class_getImageName(aClass) == bundlePath {
                 trace(aClass: aClass)
                 registered.insert(autoBitCast(aClass))
@@ -482,7 +476,7 @@ open class MethodTimeMonitor: NSObject {
     /// - Parameter pattern: regexp patten to specify classes to trace
     @objc public class func traceClassesMatching(pattern: String) {
         if let regexp = NSRegularExpression(pattern: pattern) {
-            forAllClasses { aClass, stop in
+            forAllClasses { aClass, _ in
                 let className = NSStringFromClass(aClass) as NSString
                 if regexp.firstMatch(in: String(describing: className) as String, range: NSMakeRange(0, className.length)) != nil {
                     trace(aClass: aClass)
@@ -511,7 +505,7 @@ open class MethodTimeMonitor: NSObject {
         interceptObjcMethods(of: object_getClass(aClass)!, which: "+")
         interceptObjcMethods(of: aClass, which: "-")
 
-        iterateVtableMethods(of: aClass) { name, vtableSlot, stop in
+        iterateVtableMethods(of: aClass) { name, vtableSlot, _ in
             if included(symbol: name),
                 let patch = Patch(name: name, vtableSlot: vtableSlot) {
                 vtableSlot.pointee = patch.forwardingImplementation()
@@ -540,12 +534,10 @@ extension MethodTimeMonitor {
             return false
         }
 
-        withUnsafeMutablePointer(to: &swiftMeta.pointee.ivarDestroyer) {
-            (vtableStart) in
+        withUnsafeMutablePointer(to: &swiftMeta.pointee.ivarDestroyer) { vtableStart in
             swiftMeta.withMemoryRebound(to: Int8.self, capacity: 1) {
                 let endMeta = ($0 - Int(swiftMeta.pointee.classAddressPoint) + Int(swiftMeta.pointee.classSize))
-                endMeta.withMemoryRebound(to: Optional<SIMP>.self, capacity: 1) {
-                    (vtableEnd) in
+                endMeta.withMemoryRebound(to: Optional<SIMP>.self, capacity: 1) { vtableEnd in
 
                     var info = Dl_info()
                     for i in 0..<(vtableEnd - vtableStart) {
@@ -586,9 +578,7 @@ extension MethodTimeMonitor {
             let type = method_getTypeEncoding(method)
             let name = "\(which)[\(aClass) \(selName)] -> \(String(cString: type!))"
 
-            if !included(symbol: name) || (which == "+" ?
-                selName.hasPrefix("shared") :
-                dontSwizzleProperty(aClass: aClass, sel:sel)) {
+            if !included(symbol: name) || (which == "+" ? selName.hasPrefix("shared") : dontSwizzleProperty(aClass: aClass, sel:sel)) {
                 continue
             }
 
@@ -633,11 +623,9 @@ extension MethodTimeMonitor {
         if strncmp(name, "is", 2) == 0 && isupper(Int32(name[2])) != 0 {
             name[2] = Int8(towlower(Int32(name[2])))
             return class_getProperty(aClass, &name[2]) != nil
-        }
-        else if strncmp(name, "set", 3) != 0 || islower(Int32(name[3])) != 0 {
+        } else if strncmp(name, "set", 3) != 0 || islower(Int32(name[3])) != 0 {
             return class_getProperty(aClass, name) != nil
-        }
-        else {
+        } else {
             name[3] = Int8(tolower(Int32(name[3])))
             name[Int(strlen(name))-1] = 0
             return class_getProperty(aClass, &name[3]) != nil
@@ -678,8 +666,7 @@ private extension NSRegularExpression {
     convenience init?(pattern: String) {
         do {
             try self.init(pattern: pattern, options: [])
-        }
-        catch let error as NSError {
+        } catch let error as NSError {
             fatalError(error.localizedDescription)
         }
     }
