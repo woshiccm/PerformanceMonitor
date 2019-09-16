@@ -660,6 +660,12 @@ extension EntryStack {
     }
 }
 
+extension ExitStack {
+    var invocation: MethodTimeMonitor.Patch.Invocation! {
+        return MethodTimeMonitor.Patch.Invocation.current
+    }
+}
+
 /// Convenience extension to trap regex errors and report them
 private extension NSRegularExpression {
 
